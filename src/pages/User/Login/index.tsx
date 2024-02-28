@@ -104,7 +104,7 @@ const Login: React.FC = () => {
           }}
           logo={<img alt="logo" src="/logo.svg" />}
           title="一弦智能 BI"
-          subTitle={'一弦智能 BI 快速生成你所需要的图表'}
+          subTitle={'（其实不太智能）'}
           onFinish={async (values) => {
             await handleSubmit(values as API.UserLoginDTO);
           }}

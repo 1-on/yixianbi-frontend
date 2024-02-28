@@ -1,9 +1,22 @@
-import {genChartByAi} from '@/services/yixianbi/chartController';
-import {UploadOutlined} from '@ant-design/icons';
-import {Button, Card, Col, Divider, Form, Input, message, Row, Select, Space, Spin, Upload} from 'antd';
+import { genChartByAi } from '@/services/yixianbi/chartController';
+import { UploadOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  message,
+  Row,
+  Select,
+  Space,
+  Spin,
+  Upload,
+} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import ReactECharts from 'echarts-for-react';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 /**
  * 添加图表页面
@@ -23,7 +36,8 @@ const AddChart: React.FC = () => {
       return;
     }
     setSubmitting(true);
-    console.log('Success:', values.file.file.originFileObj);
+    setChart(undefined);
+    setOption(undefined);
     const params = {
       ...values,
       file: undefined,
@@ -71,7 +85,7 @@ const AddChart: React.FC = () => {
                 name="goal"
                 rules={[{ required: true, message: '请输入分析目标' }]}
               >
-                <TextArea placeholder="请输入你的分析需求，比如：分许网站用户的增长情况" />
+                <TextArea placeholder="请输入你的分析需求，比如：分析网站用户的增长情况" />
               </Form.Item>
 
               <Form.Item label="图表名称" name="name">
@@ -89,7 +103,7 @@ const AddChart: React.FC = () => {
               </Form.Item>
               <Form.Item name="file" label={'原始数据'}>
                 <Upload name={'file'}>
-                  <Button icon={<UploadOutlined />}>上传 CSV 文件</Button>
+                  <Button icon={<UploadOutlined />}>上传 EXCEL 文件</Button>
                 </Upload>
               </Form.Item>
 

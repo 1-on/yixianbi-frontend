@@ -1,6 +1,6 @@
 import {listMyChartByPage} from '@/services/yixianbi/chartController';
 import {useModel} from '@@/exports';
-import {Avatar, Card, List, message} from 'antd';
+import {Avatar, Card, List, message, Result} from 'antd';
 import Search from 'antd/es/input/Search';
 import ReactECharts from 'echarts-for-react';
 import React, {useEffect, useState} from 'react';
@@ -13,6 +13,8 @@ const MyChartPage: React.FC = () => {
   const initSearchParams = {
     current: 1,
     pageSize: 4,
+    sortField: 'createTime',
+    sortOrder: 'desc',
   };
   const [searchParams, setSearchParams] = useState<API.ChartQueryDTO>({ ...initSearchParams });
   // 当前用户信息
@@ -108,10 +110,37 @@ const MyChartPage: React.FC = () => {
                 title={item.name ? item.name : '无'}
                 description={item.chartType ? '图表类型：' + item.chartType : undefined}
               />
-              {'分析目标:' + item.goal}
-              {/* 在元素的下方增加16像素的外边距 */}
-              <div className="margin-16" />
-              <ReactECharts option={JSON.parse(item.genChart ?? '{}')} />
+              <>
+                {item.status === 'wait' && (
+                  <>
+                    <Result
+                      status="warning"
+                      title="待生成"
+                      subTitle={item.execMessage ?? '当前图表生成队列繁忙，请耐心等待'}
+                    />
+                  </>
+                )}
+                {item.status === 'succeed' && (
+                  <>
+                    {' '}
+                    {'分析目标:' + item.goal} <br/>
+                    {'分析结果:' + item.genResult}
+                    {/* 在元素的下方增加16像素的外边距 */}
+                    <div className="margin-16" />
+                    <ReactECharts option={JSON.parse(item.genChart ?? '{}')} />
+                  </>
+                )}
+                {item.status === 'running' && (
+                  <>
+                    <Result status="info" title="图表生成中" subTitle={item.execMessage} />
+                  </>
+                )}
+                {item.status === 'failed' && (
+                  <>
+                    <Result status="error" title="图表生成失败" subTitle={item.execMessage} />
+                  </>
+                )}
+              </>
             </Card>
           </List.Item>
         )}

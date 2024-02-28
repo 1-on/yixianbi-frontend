@@ -14,6 +14,8 @@ declare namespace API {
     genChart?: string;
     genResult?: string;
     userId?: number;
+    status?: string;
+    execMessage?: string;
     createTime?: string;
     updateTime?: string;
     isDelete?: number;
@@ -56,6 +58,12 @@ declare namespace API {
 
   type DeleteRequest = {
     id?: number;
+  };
+
+  type genChartByAiAsyncMqParams = {
+    name?: string;
+    goal?: string;
+    chartType?: string;
   };
 
   type genChartByAiParams = {
